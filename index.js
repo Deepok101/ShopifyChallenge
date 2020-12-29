@@ -5,11 +5,20 @@ const mongoose = require("mongoose");
 const appRoute = require("./routes/appRoute");
 const app = express();
 const PORT = process.env.PORT || 5000;
+const userRoute = require("./routes/userRoute")
+var bodyParser = require('body-parser')
 
-app.use("/api", appRoute);
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
+app.use("/image", appRoute);
 mongoose.connect(process.env.MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 }).then(() => console.log("connected to mongo database")).catch((error) => console.error(error));
+
+// app.use("/shoppingCart", shoppingCartRoute)
+
+app.use("/user", userRoute)
 
 app.listen(PORT, () => console.log(`listening on port : ${PORT}`));

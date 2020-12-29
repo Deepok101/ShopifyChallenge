@@ -3,9 +3,12 @@ import { Modal, Button } from "react-bootstrap";
 import axios from "axios";
 
 
-const Upload = () => {
+const Upload = (props) => {
   const [show, setShow] = useState(false);
   const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+  const [price, setPrice] = useState(0);
+  const [discount, setDiscount] = useState(0);
   const [image, setImage] = useState(null);
   const [error, setError] = useState(false);
 
@@ -20,8 +23,12 @@ const Upload = () => {
 
       formData.append("picture", image, image.name);
       formData.append("desc", description);
-
-      let res = await axios.post("/api/upload", formData);
+      formData.append("username", props.username);
+      formData.append("title", title);
+      formData.append("price", price);
+      formData.append("discount", discount);
+      
+      let res = await axios.post("/image/upload", formData);
       setError(false);
       handleClose();
     } catch (error) {
@@ -56,11 +63,52 @@ const Upload = () => {
         <Modal.Body>
           <form onSubmit={onSubmit}>
             <div className="form-group">
-              <label htmlFor="desc">description</label>
+              <label htmlFor="desc">Description</label>
               <input
                 onChange={(e) => setDescription(e.target.value)}
                 type="text"
                 value={description}
+                className="form-control"
+                required
+                id="desc"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="desc">Title</label>
+              <input
+                onChange={(e) => setTitle(e.target.value)}
+                type="text"
+                value={title}
+                className="form-control"
+                required
+                id="desc"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="desc">Price</label>
+              <input
+                onChange={(e) => setPrice(e.target.value)}
+                type="number"
+                value={price}
+                min="0"
+                step="0.01"
+                max="100"
+                className="form-control"
+                required
+                id="desc"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="desc">Discount</label>
+              <input
+                onChange={(e) => setDiscount(e.target.value)}
+                type="number"
+                min="0"
+                max="100"
+                value={discount}
                 className="form-control"
                 required
                 id="desc"

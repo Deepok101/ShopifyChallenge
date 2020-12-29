@@ -1,13 +1,14 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.css";
-import Upload from "./component/Upload";
-import ImageCarousel from "./component/ImageCarousel";
+
+import Route from './routes/routes'
 function App() {
   return (
-    <div className="container">
-    <ImageCarousel />
-    <Upload />
-    </div>
+    // <div className="container">
+    //   <ImageCarousel />
+    //   <Upload />
+    // </div>
+      <Route/>
     );
 }
 export default App;
