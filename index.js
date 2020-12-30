@@ -4,13 +4,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const appRoute = require("./routes/appRoute");
 const app = express();
+const userRoute = require("./routes/userRoute")
 
 const PORT = process.env.PORT || 5000;
-const userRoute = require("./routes/userRoute")
+// const publicPath = path.join(__dirname, '..', 'public');
+
 var bodyParser = require('body-parser')
 
 if (process.env.NODE_ENV == "production"){
-    app.use(express.static('../build'))
+    app.use(express.static('./frontend/public'))
 }
 
 app.use(bodyParser.urlencoded({ extended: false }))
