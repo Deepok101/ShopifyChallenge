@@ -40,6 +40,7 @@ A user can look at the main store and add images to their cart. Once a user fini
 - A user cannot add an item with 0 inventory into their shopping cart. This is mostly done in the frontend where the `add to cart` button is disabled.
 - Checking out a product with 0 inventory will not process that individual image. 
 This can happen when a user adds a product to their shopping cart that is still in inventory and the owner of that image sets the inventory of that image to 0 before the user checks out.
+- An owner of an image cannot purchase their own image. This is taken care in both the frontend.
 
 ## Security
 
