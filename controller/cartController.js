@@ -26,6 +26,9 @@ const addToCart = async (req, res) => {
         if(!shoppingCart.images.includes(req.body.imageId)){
           shoppingCart.images.push(req.body.imageId)
           let i = await Image.findById(req.body.imageId)
+          if(u.username == i.belongsTo){
+            return res.status(500).json({error: "Cannot purchase item that belongs to you"})
+          }
           if(i.price){
             shoppingCart.total = shoppingCart.total + i.realprice
           }

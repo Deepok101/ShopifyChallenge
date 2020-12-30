@@ -51,9 +51,16 @@ const uploadImage = async (req, res) => {
 const setInventory = async (req, res) => {
   try {
     let image = await Image.findById(req.params.id);
-    image.inventory = req.body.inventory
-    image.save()
-    return res.status(200).json({ msg: "Inventory edited"});
+    if(req.body.inventory < 0){
+      return res.status(500).json({error: "Inventory cannot be a negative integer"})
+    }
+    if(Number.isInteger(parseInt(req.body.inventory))){
+      image.inventory = req.body.inventory
+      await image.save()
+      return res.status(200).json({ msg: "Inventory edited"});
+    } else {
+      return res.status(500).json({error: "Inventory value must be an integer value"})
+    }
   } 
   catch (error) {
     console.error(error);
@@ -69,7 +76,7 @@ const setPrice = async (req, res) => {
     }
     image.price = req.body.price
     image.realprice = image.price * (1-(image.discount/100))
-    image.save()
+    await image.save()
     return res.status(200).json({ msg: "Price edited"});
   } 
   catch (error) {
@@ -81,13 +88,13 @@ const setPrice = async (req, res) => {
 const setDiscount = async (req, res) => {
   try {
     let image = await Image.findById(req.params.id);
-    if (0 > req.body.discount > 100){
+    if (req.body.discount > 100 || req.body.discount < 0){
       return res.status(500).json({ error: "Cannot set discount value below 0% or higher than 100%" });
     }
     
     image.discount = req.body.discount
     image.realprice = image.price * (1-(image.discount/100))
-    image.save()
+    await image.save()
     return res.status(200).json({ msg: "Discount edited"});
   } 
   catch (error) {
@@ -100,8 +107,6 @@ const deleteImage = async (req, res) => {
   try {
     let username = req.body.username
     let imageId = req.params.id
-    console.log(imageId)
-    console.log(username)
     await Image.findOneAndDelete({_id: imageId, belongsTo: username})
     return res.status(200).json({ msg: "Successfully deleted user image" }); 
   }

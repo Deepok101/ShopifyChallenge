@@ -10,7 +10,7 @@ const ImageCarousel = (props) => {
   const [error, setError] = useState(false);
 
   const handleShow = () => setShow(true);
-  const handleClose = () => setShow(false);
+  const handleClose = () => {setShow(false); setError(false)};
 
   useEffect(() => {
     getImage();
@@ -35,7 +35,7 @@ const ImageCarousel = (props) => {
         headers: { 'Content-type': 'application/json' }
       }).then(res => res.json()).then(res => {
         if (res.error){
-          setError(true)
+          setError(res.error)
         } else {
           setImages(res.images);
         }
@@ -70,7 +70,7 @@ const ImageCarousel = (props) => {
       headers: { 'Content-type': 'application/json' }
     }).then(res => res.json()).then(res => {
       if (res.error){
-        setError(true)
+        setError(res.error)
       } else {
         console.log(res)
         getImage()
@@ -89,7 +89,13 @@ const ImageCarousel = (props) => {
       credentials: 'include',
       body: JSON.stringify(body),
       headers: { 'Content-type': 'application/json' }
-    }).then(() => getImage())
+    }).then(res => res.json()).then(res => {
+      if(res.error){
+        setError(res.error)
+      } else {
+        getImage()
+      }
+    })
   }
 
   const setPrice = (imageId, price) => {
@@ -102,7 +108,13 @@ const ImageCarousel = (props) => {
       credentials: 'include',
       body: JSON.stringify(body),
       headers: { 'Content-type': 'application/json' }
-    }).then(() => getImage())
+    }).then(res => res.json()).then(res => {
+      if(res.error){
+        setError(res.error)
+      } else {
+        getImage()
+      }
+    })
   }
 
   const deleteImage = (imageId) => {
@@ -189,7 +201,7 @@ const ImageCarousel = (props) => {
             {error ? (
               <div className="text-danger">
                 {" "}
-                Some error occured uploading the file{" "}
+                {error}{" "}
               </div>
             ) : null}
         </Modal.Body>

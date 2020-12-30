@@ -40,6 +40,11 @@ const registerUser = async (req, res) => {
     var username = req.body.username;
     var password = req.body.password;
 
+    let user = await User.findOne({username: username})
+    if(user != null){
+      return res.status(500).json({error: "User already exists"})
+    }
+
     bcrypt.hash(password, 8, (err, hash)=>{
         const newUser = new User({
             username: username,
