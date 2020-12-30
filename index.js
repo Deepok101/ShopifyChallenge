@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 var bodyParser = require('body-parser')
 
 if (process.env.NODE_ENV == "production"){
-    app.use(express.static('./frontend/build'))
+    app.use(express.static(path.join(__dirname, 'frontend/build')));
 }
 
 app.use(bodyParser.urlencoded({ extended: false }))
