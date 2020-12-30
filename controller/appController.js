@@ -61,6 +61,22 @@ const setInventory = async (req, res) => {
   }
 };
 
+const setPrice = async (req, res) => {
+  try {
+    let image = await Image.findById(req.params.id);
+    if(req.body.price < 0){
+      return res.status(500).json({error: "Price cannot be a negative value"})
+    }
+    image.price = req.body.price
+    image.save()
+    return res.status(200).json({ msg: "Price edited"});
+  } 
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "some error occured" });
+  }
+};
+
 const setDiscount = async (req, res) => {
   try {
     let image = await Image.findById(req.params.id);
@@ -100,5 +116,6 @@ module.exports = {
   getUserImages,
   setInventory,
   setDiscount,
-  deleteImage
+  deleteImage,
+  setPrice
 };

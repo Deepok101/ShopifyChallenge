@@ -51,6 +51,9 @@ const ImageCarousel = (props) => {
       case "Discount":
         setDiscount(imageId, value)
         break
+      case "Price":
+        setPrice(imageId, value)
+        break
     }
   }
 
@@ -82,6 +85,19 @@ const ImageCarousel = (props) => {
     }
 
     fetch(`/image/${imageId}/setDiscount`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(body),
+      headers: { 'Content-type': 'application/json' }
+    }).then(() => getImage())
+  }
+
+  const setPrice = (imageId, price) => {
+    const body = {
+      'price': price
+    }
+
+    fetch(`/image/${imageId}/setPrice`, {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify(body),
@@ -137,9 +153,10 @@ const ImageCarousel = (props) => {
                   
                   {props.myShop == true ? 
                   <div>
-                    <Button style={{marginRight:5}} variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Inventory"); handleShow()}}>Set Inventory</Button>
-                    <Button variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Discount"); handleShow()}}>Set Discount</Button>
-                    <Button variant="danger" onClick={() =>{deleteImage(image._id)} }>Delete</Button>
+                    <Button style={{marginRight:5, marginTop: 5}} variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Inventory"); handleShow()}}>Set Inventory</Button>
+                    <Button style={{marginRight:5, marginTop: 5}} variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Discount"); handleShow()}}>Set Discount</Button>
+                    <Button style={{marginRight:5, marginTop: 5}} variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Price"); handleShow()}}>Set Price</Button>
+                    <Button style={{marginRight:5, marginTop: 5}} variant="danger" onClick={() =>{deleteImage(image._id)} }>Delete</Button>
                   </div>
                   : null}
                 </Card.Body>

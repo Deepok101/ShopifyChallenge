@@ -14,7 +14,7 @@ const ShoppingCart = (props) => {
         {props.images.map(im => 
         <div>
           <Image src={im.url} width={200} height={200}/>
-          <p>{im.price != "" ? `${im.price}$`: "Free"}</p>
+          <p>{im.price != "" ? `$${im.realprice}`: "Free"}</p>
         </div>)
         }
         <p>
