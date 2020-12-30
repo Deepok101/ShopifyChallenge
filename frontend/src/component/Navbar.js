@@ -12,7 +12,7 @@ const NavbarComponent = (props) => {
         <Nav.Link href="#MyShop" onClick={() => props.setMyShop(true)}>My Shop</Nav.Link>
       </Nav>
       <Navbar.Collapse className="justify-content-end">
-        <Upload username={props.username}/>
+        <Upload username={props.username} setUploadedImage={props.setUploadedImage}/>
         <Button type="submit" variant="outline-info" style={{marginRight: 10}} onClick={props.getCart} >Shopping Cart <Badge variant="danger">{props.cartSize}</Badge></Button>
         <Button type="submit" variant="outline-info" style={{marginRight: 10}} onClick={props.addCredits}>Add Credits</Button>
         <Navbar.Text style={{marginRight: 10}}>

@@ -31,6 +31,7 @@ const Upload = (props) => {
       let res = await axios.post("/image/upload", formData);
       setError(false);
       handleClose();
+      props.setUploadedImage(image.name)
     } catch (error) {
       setError(true);
       console.error(error);
@@ -122,6 +123,7 @@ const Upload = (props) => {
                   onChange={(e) => setImage(e.target.files[0])}
                   className="custom-file-input"
                   id="image"
+                  accept="image/gif, image/jpeg, image/png"
                 />
 
                 <label className="custom-file-label" htmlFor="image">

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Card, Button, CardDeck, Modal } from "react-bootstrap";
-import axios from "axios";
+import { Card, Button, CardDeck, Modal, Badge } from "react-bootstrap";
 
 const ImageCarousel = (props) => {
   const [images, setImages] = useState(null);
@@ -15,38 +14,32 @@ const ImageCarousel = (props) => {
 
   useEffect(() => {
     getImage();
-  }, [props.myShop]);
+  }, [props.myShop, props.uploadedImage]);
 
   const getImage = async () => {
-    try {
-
-      if (props.myShop == false){
-        fetch("/image/images", {
-          method: 'GET',
-        }).then(res => res.json()).then(res => {
-          if (res.error){
-            setError(true)
-          } else {
-            console.log(res)
-            setImages(res.images);
-          }
-        })        
-      } else if (props.myShop == true) {
-        fetch(`/image/images/${props.username}`, {
-          method: 'GET',
-          credentials: 'include',
-          headers: { 'Content-type': 'application/json' }
-        }).then(res => res.json()).then(res => {
-          if (res.error){
-            setError(true)
-          } else {
-            setImages(res.images);
-          }
-        })     
-      }
-
-    } catch (error) {
-      console.error(error);
+    if (props.myShop == false){
+      fetch("/image/images", {
+        method: 'GET',
+      }).then(res => res.json()).then(res => {
+        if (res.error){
+          setError(true)
+        } else {
+          console.log(res)
+          setImages(res.images);
+        }
+      })        
+    } else if (props.myShop == true) {
+      fetch(`/image/images/${props.username}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 'Content-type': 'application/json' }
+      }).then(res => res.json()).then(res => {
+        if (res.error){
+          setError(true)
+        } else {
+          setImages(res.images);
+        }
+      })     
     }
   };
 
@@ -118,6 +111,8 @@ const ImageCarousel = (props) => {
               <Card style={{ minWidth: '30%', flexGrow: 0, marginTop: 20}}>
                 <Card.Img variant="top" key={image._id} src={image.url} height={300} width={300}/>
                 <Card.Body>
+                  {image.belongsTo == props.username && props.myShop == false ? <Badge variant="info" style={{display: "inline-block"}}>This is your product</Badge>: null}
+                  {image.inventory == 0 && props.myShop == false? <Badge variant="warning" style={{display: "inline-block"}}>No inventory</Badge>: null}
                   <Card.Title>{image.title}</Card.Title>
                   <Card.Text>
                     {image.description}

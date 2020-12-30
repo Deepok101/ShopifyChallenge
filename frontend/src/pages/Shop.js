@@ -13,6 +13,8 @@ const ShopPage = (props) => {
     const [myShop, setMyShop] = useState(false)
     const [total, setTotal] = useState(0)
     const [error, setError] = useState(null)
+    const [uploadedImage, setUploadedImage] = useState(null)
+
     useEffect(() => initCart(), []);
 
     const handleClose = () => {
@@ -100,11 +102,11 @@ const ShopPage = (props) => {
     return (
       <div>
         <ShoppingCart show={show} images={cart} handleClose={handleClose} purchase={purchase} error={error} total={total} username={props.username} resetCart={resetCart}/>
-        <Navbar username={props.username} getCart={getCart} addCredits={addCredits} setMyShop={setMyShop} credits={credits} cartSize={cart.length}/>
+        <Navbar username={props.username} getCart={getCart} addCredits={addCredits} setMyShop={setMyShop} credits={credits} cartSize={cart.length} setUploadedImage={setUploadedImage}/>
         
         <div className="container">
         {myShop ? <h1>My Shop</h1>: <h1>Shop</h1>}
-          <ImageGallery username={props.username} myShop={myShop} addToCart={addToCart}/>
+          <ImageGallery username={props.username} myShop={myShop} addToCart={addToCart} uploadedImage={uploadedImage}/>
         </div>
 
 
