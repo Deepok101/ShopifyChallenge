@@ -68,6 +68,7 @@ const setPrice = async (req, res) => {
       return res.status(500).json({error: "Price cannot be a negative value"})
     }
     image.price = req.body.price
+    image.realprice = image.price * (1-(image.discount/100))
     image.save()
     return res.status(200).json({ msg: "Price edited"});
   } 
