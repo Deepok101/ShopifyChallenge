@@ -7,6 +7,7 @@ const Image = new Schema({
     belongsTo: { type: String },
     title: {type: String},
     price: {type: Number},
+    realprice: {type: Number},
     discount: {type: Number},
     inventory: {type: Number}
 });

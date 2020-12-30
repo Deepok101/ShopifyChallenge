@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Navbar, Button, Nav } from "react-bootstrap";
+import { Navbar, Button, Nav, Badge } from "react-bootstrap";
 import Upload from "./Upload";
 
 const NavbarComponent = (props) => {
@@ -13,7 +13,11 @@ const NavbarComponent = (props) => {
       </Nav>
       <Navbar.Collapse className="justify-content-end">
         <Upload username={props.username}/>
-        <Button type="submit" variant="outline-info" style={{marginRight: 10}} onClick={props.getCart}>Shopping Cart</Button>
+        <Button type="submit" variant="outline-info" style={{marginRight: 10}} onClick={props.getCart} >Shopping Cart <Badge variant="danger">{props.cartSize}</Badge></Button>
+        <Button type="submit" variant="outline-info" style={{marginRight: 10}} onClick={props.addCredits}>Add Credits</Button>
+        <Navbar.Text style={{marginRight: 10}}>
+          Credits: {props.credits}
+        </Navbar.Text>
         <Navbar.Text>
           Signed in as: <a href="#login">{props.username}</a>
         </Navbar.Text>

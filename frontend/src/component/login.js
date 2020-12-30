@@ -25,7 +25,7 @@ const Login = (props) => {
         setLoginState(res.session)
         setToken(res.token)
         console.log(res)
-        props.handleLogin({username: res.result.username, loggedIn: res.session})
+        props.handleLogin({username: res.result.username, credits:res.result.credits, loggedIn: res.session})
       }
     })
   }

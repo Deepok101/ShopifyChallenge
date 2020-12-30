@@ -4,9 +4,14 @@ const express = require("express");
 const mongoose = require("mongoose");
 const appRoute = require("./routes/appRoute");
 const app = express();
+
 const PORT = process.env.PORT || 5000;
 const userRoute = require("./routes/userRoute")
 var bodyParser = require('body-parser')
+
+if (process.env.NODE_ENV == "production"){
+    app.use(express.static('../build'))
+}
 
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())

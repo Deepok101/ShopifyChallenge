@@ -10,7 +10,7 @@ const MainPage = (props) => {
     }
 
     if(accountState.loggedIn){
-      return (<ShopPage username={accountState.username}/>);
+      return (<ShopPage username={accountState.username} credits={accountState.credits}/>);
     } else {
       return (<LoginPage handleLogin={handleLogin}/>)
     }

@@ -31,7 +31,8 @@ const uploadImage = async (req, res) => {
         belongsTo: req.body.username,
         title: req.body.title,
         price: req.body.price,
-        discount: req.body.discount
+        discount: req.body.discount,
+        realprice: req.body.price * (1-(req.body.discount/100))
       });
       await image.save();
       return res.status(200).json({ msg: "image successfully saved" });
@@ -49,7 +50,7 @@ const uploadImage = async (req, res) => {
 
 const setInventory = async (req, res) => {
   try {
-    let image = await Image.findById(req.body.id);
+    let image = await Image.findById(req.params.id);
     image.inventory = req.body.inventory
     image.save()
     return res.status(200).json({ msg: "Inventory edited"});
@@ -60,14 +61,32 @@ const setInventory = async (req, res) => {
   }
 };
 
+const setDiscount = async (req, res) => {
+  try {
+    let image = await Image.findById(req.params.id);
+    if (0 > req.body.discount > 100){
+      return res.status(500).json({ error: "Cannot set discount value below 0% or higher than 100%" });
+    }
+    
+    image.discount = req.body.discount
+    image.realprice = image.price * (1-(image.discount/100))
+    image.save()
+    return res.status(200).json({ msg: "Discount edited"});
+  } 
+  catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "some error occured" });
+  }
+};
+
 const deleteImage = async (req, res) => {
   try {
-    Image.findByIdAndDelete(req.id, (err, docs) => {
-      if(err){
-        console.log(err)
-        return res.status(422).json({error: "Invalid ID"})
-      }
-    })
+    let username = req.body.username
+    let imageId = req.params.id
+    console.log(imageId)
+    console.log(username)
+    await Image.findOneAndDelete({_id: imageId, belongsTo: username})
+    return res.status(200).json({ msg: "Successfully deleted user image" }); 
   }
   catch (error){
     console.error(error);
@@ -79,5 +98,7 @@ module.exports = {
   getImages,
   uploadImage,
   getUserImages,
-  setInventory
+  setInventory,
+  setDiscount,
+  deleteImage
 };

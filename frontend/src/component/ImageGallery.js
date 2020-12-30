@@ -5,8 +5,10 @@ import axios from "axios";
 const ImageCarousel = (props) => {
   const [images, setImages] = useState(null);
   const [show, setShow] = useState(false)
-  const [inventoryVal, setInventoryVal] = useState(0)
+  const [editValue, setEditValue] = useState(0)
   const [imageToEdit, setImageToEdit] = useState(null)
+  const [editMode, setEditMode] = useState("")
+  const [error, setError] = useState(false);
 
   const handleShow = () => setShow(true);
   const handleClose = () => setShow(false);
@@ -32,35 +34,65 @@ const ImageCarousel = (props) => {
     }
   };
 
-  const addToCart = (imageId, price) => {
-    const body = {
-      'username' : props.username,
-      'imageId' : imageId,
-      'price': price
+  const setImage = async (imageId, value) => {
+    switch(editMode){
+      case "Inventory":
+        setInventory(imageId, value)
+        break
+      case "Discount":
+        setDiscount(imageId, value)
+        break
     }
-
-    fetch('/user/cart/add', {
-      method: 'POST',
-      credentials: 'include',
-      body: JSON.stringify(body),
-      headers: { 'Content-type': 'application/json' }
-    })
   }
 
   const setInventory = (imageId, inventory) => {
     console.log(imageId)
     const body = {
       'username' : props.username,
-      'id' : imageId,
       'inventory': inventory
     }
 
-    fetch('/image/setInventory', {
+    fetch(`/image/${imageId}/setInventory`, {
       method: 'POST',
       credentials: 'include',
       body: JSON.stringify(body),
       headers: { 'Content-type': 'application/json' }
+    }).then(res => res.json()).then(res => {
+      if (res.error){
+        setError(true)
+      } else {
+        console.log(res)
+        getImage()
+      }
     })
+  }
+
+  const setDiscount = (imageId, discount) => {
+    const body = {
+      'username' : props.username,
+      'discount': discount
+    }
+
+    fetch(`/image/${imageId}/setDiscount`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(body),
+      headers: { 'Content-type': 'application/json' }
+    }).then(() => getImage())
+  }
+
+  const deleteImage = (imageId) => {
+    const body = {
+      'username' : props.username,
+    }
+
+    fetch(`/image/${imageId}/delete`, {
+      method: 'POST',
+      credentials: 'include',
+      body: JSON.stringify(body),
+      headers: { 'Content-type': 'application/json' }
+    }).then(res => res.json()).then(() => getImage())
+
   }
 
   return (
@@ -82,10 +114,24 @@ const ImageCarousel = (props) => {
                     {`Discount ${image.discount}%`}
                   </Card.Text>
                   <Card.Text>
-                    {image.inventory ? `Inventory: ${image.inventory}`: 'Inventory: Unlimitted'}
+                    {`Discounted Price ${image.realprice}$`}
                   </Card.Text>
-                  {image.belongsTo != props.username ? <Button variant="primary" onClick={() => addToCart(image._id, image.price)}>Add to cart</Button>: <Button disabled variant="primary" onClick={() => addToCart(image._id)}>Add to cart</Button>}
-                  {props.myShop == true ? <Button variant="primary" onClick={() => {setImageToEdit(image._id); handleShow()}}>Set Inventory</Button>: null}
+                  <Card.Text>
+                    {image.inventory != undefined  ? `Inventory: ${image.inventory}`: 'Inventory: Unlimitted'}
+                  </Card.Text>
+                  {props.myShop == false ? 
+                    image.belongsTo != props.username && (image.inventory > 0 || image.inventory == undefined) ? 
+                      <Button variant="primary" onClick={() => props.addToCart(image._id, image.price)}>Add to cart</Button>
+                      : <Button disabled variant="primary" onClick={() => props.addToCart(image._id)}>Add to cart</Button>
+                  : null}
+                  
+                  {props.myShop == true ? 
+                  <div>
+                    <Button style={{marginRight:5}} variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Inventory"); handleShow()}}>Set Inventory</Button>
+                    <Button variant="primary" onClick={() => {setImageToEdit(image._id); setEditMode("Discount"); handleShow()}}>Set Discount</Button>
+                    <Button variant="danger" onClick={() =>{deleteImage(image._id)} }>Delete</Button>
+                  </div>
+                  : null}
                 </Card.Body>
               </Card>
             );
@@ -94,23 +140,31 @@ const ImageCarousel = (props) => {
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Upload Image</Modal.Title>
+          <Modal.Title>Set {editMode}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
             <div className="form-group">
-              <label htmlFor="desc">Inventory</label>
+              <label htmlFor="desc">{editMode}</label>
               <input
-                onChange={(e) => setInventoryVal(e.target.value)}
+                onChange={(e) => setEditValue(e.target.value)}
                 type="number"
-                value={inventoryVal}
+                value={editValue}
+                min={0}
+                max={100}
                 className="form-control"
                 required
                 id="desc"
               />
             </div>
-            <button onClick={() => {setInventory(imageToEdit, inventoryVal); handleClose()}} className="btn btn-primary">
+            <button onClick={() => {setImage(imageToEdit, editValue); handleClose()}} className="btn btn-primary">
               Submit
             </button>
+            {error ? (
+              <div className="text-danger">
+                {" "}
+                Some error occured uploading the file{" "}
+              </div>
+            ) : null}
         </Modal.Body>
 
         <Modal.Footer>

@@ -18,11 +18,22 @@ const ShoppingCart = (props) => {
         </div>)
         }
         <p>
-          Total: {props.total}
+          Total: {props.total}$
         </p>
+        {props.error ? (
+        <p className="text-danger">
+          {props.error}
+        </p>
+      ) : null}
     </Modal.Body>
 
     <Modal.Footer>
+      <Button variant="primary" onClick={props.purchase}>
+        Checkout
+      </Button>
+      <Button variant="danger" onClick={props.resetCart}>
+        Reset
+      </Button>
       <Button variant="secondary" onClick={props.handleClose}>
         Close
       </Button>
