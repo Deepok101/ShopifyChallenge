@@ -155,7 +155,7 @@ const ImageCarousel = (props) => {
                     {`Discounted Price ${image.realprice}$`}
                   </Card.Text>
                   <Card.Text>
-                    {image.inventory != undefined  ? `Inventory: ${image.inventory}`: 'Inventory: Unlimitted'}
+                    {image.inventory != undefined  ? `Inventory: ${image.inventory}`: 'Inventory: Unlimited'}
                   </Card.Text>
                   {props.myShop == false ? 
                     image.belongsTo != props.username && (image.inventory > 0 || image.inventory == undefined) ? 
