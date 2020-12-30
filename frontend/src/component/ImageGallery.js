@@ -19,14 +19,30 @@ const ImageCarousel = (props) => {
 
   const getImage = async () => {
     try {
+
       if (props.myShop == false){
-        let { data } = await axios.get("/image/images");
-        setImages(data.images);
-        console.log(data.images)
+        fetch("/image/images", {
+          method: 'GET',
+        }).then(res => res.json()).then(res => {
+          if (res.error){
+            setError(true)
+          } else {
+            console.log(res)
+            setImages(res.images);
+          }
+        })        
       } else if (props.myShop == true) {
-        let { data } = await axios.get(`/image/images/${props.username}`);
-        setImages(data.images);
-        console.log(data.images)   
+        fetch(`/image/images/${props.username}`, {
+          method: 'GET',
+          credentials: 'include',
+          headers: { 'Content-type': 'application/json' }
+        }).then(res => res.json()).then(res => {
+          if (res.error){
+            setError(true)
+          } else {
+            setImages(res.images);
+          }
+        })     
       }
 
     } catch (error) {
@@ -46,7 +62,6 @@ const ImageCarousel = (props) => {
   }
 
   const setInventory = (imageId, inventory) => {
-    console.log(imageId)
     const body = {
       'username' : props.username,
       'inventory': inventory
