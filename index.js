@@ -17,13 +17,6 @@ app.use(bodyParser.json())
 
 if (process.env.NODE_ENV == "production"){
     app.use(express.static(path.join(__dirname, 'frontend/build')));
-    app.get('/*', function(req, res) {
-        res.sendFile(path.join(__dirname, 'frontend/build/index.html'), function(err) {
-            if (err) {
-                res.status(500).send(err)
-            }     
-        })  
-    })
 }
 
 app.use("/image", appRoute);
@@ -35,5 +28,13 @@ mongoose.connect(process.env.MONGO_URI, {
 // app.use("/shoppingCart", shoppingCartRoute)
 
 app.use("/user", userRoute)
+
+app.get('/*', function(req, res) {
+    res.sendFile(path.join(__dirname, 'frontend/build/index.html'), function(err) {
+        if (err) {
+            res.status(500).send(err)
+        }     
+    })  
+})
 
 app.listen(PORT, () => console.log(`listening on port : ${PORT}`));
