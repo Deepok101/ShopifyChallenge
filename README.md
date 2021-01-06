@@ -6,6 +6,10 @@ The new revolutionary way to buy images from other users!
 
 This is my submission for the 2021 summer Shopify internship challenge.
 
+Want to try it out?
+
+1. Go register at https://deepokshopifychallenge.herokuapp.com/register
+2. Login and enjoy! https://deepokshopifychallenge.herokuapp.com/shop
 ## Tech Stack
 
 These are the technologies I used for this project.
