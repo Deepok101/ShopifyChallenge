@@ -1,10 +1,10 @@
 import React from "react";
-import Register from '../component/register'
+import Register from '../component/Register'
 
 const RegisterPage = (props) => {
     
     return (
-    <div>
+    <div className="container">
         <h1>
             Register User
         </h1>

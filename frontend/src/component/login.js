@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.css";
+import {Button} from "react-bootstrap";
 
 const Login = (props) => {
   const [username, userInput] = useState('');
@@ -33,7 +34,7 @@ const Login = (props) => {
       <div className="container"> 
           <input type="text" placeholder="Username" onChange={e => userInput(e.target.value)} />
           <input type="text" placeholder="Password" onChange={e => passwordInput(e.target.value)} />
-          <button onClick={login}>Login</button>
+          <Button onClick={login}>Login</Button>
       </div>
 
     );

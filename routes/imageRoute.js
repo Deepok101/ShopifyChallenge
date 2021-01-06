@@ -1,6 +1,6 @@
 const express = require("express");
 const upload = require("../services/upload");
-const { uploadImage, getImages, getUserImages, setInventory, setDiscount, deleteImage, setPrice } = require("../controller/appController");
+const { uploadImage, getImages, getUserImages, setInventory, setDiscount, deleteImage, setPrice } = require("../controller/imageController");
 const router = express.Router();
 
 // /api/images

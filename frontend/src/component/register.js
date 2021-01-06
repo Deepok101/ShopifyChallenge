@@ -1,10 +1,11 @@
 import React, { Component, useState } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import { useHistory } from 'react-router-dom';
+import {useHistory} from 'react-router-dom'
+import {Button} from "react-bootstrap";
 
 const Register = (props) => {
   const [username, userInput] = useState('');
   const [password, passwordInput] = useState('');
+  const [registerMsg, setRegisterMsg] = useState('');
   const history = useHistory()
 
   const register = () => {
@@ -22,15 +23,17 @@ const Register = (props) => {
       if(res.error){
         console.log(res.error)
       } else {
-        history.push('/login')
+        setRegisterMsg(res.msg)
       }
     })
   }
   return (
-    <div className="container"> 
+    <div> 
         <input type="text" placeholder="Username" onChange={e => userInput(e.target.value)} />
         <input type="text" placeholder="Password" onChange={e => passwordInput(e.target.value)} />
-        <button onClick={register}>Register</button>
+        <Button variant="primary" onClick={register}>Register</Button>
+        <h3>{registerMsg}</h3>
+        <Button variant="primary" onClick={() => history.push("/shop")}>Go to login page</Button>
     </div>
     );
 }

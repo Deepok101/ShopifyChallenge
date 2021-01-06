@@ -52,10 +52,7 @@ const registerUser = async (req, res) => {
             shoppingcart: {images: [], total: 0},
             credits: 0
         })
-        
-        newUser.save().then(() => {
-          () => res.status(200).send({msg: "successfully registered"})
-        })
+        newUser.save().then(() => res.status(200).send({msg: "successfully registered"}))
         
     })
   } 
