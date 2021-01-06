@@ -1,6 +1,6 @@
 import { PromiseProvider } from "mongoose";
 import React from "react";
-import Login from '../component/login'
+import Login from '../component/Login'
 
 const LoginPage = (props) => {
     
