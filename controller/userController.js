@@ -42,7 +42,7 @@ const registerUser = async (req, res) => {
 
     let user = await User.findOne({username: username})
     if(user != null){
-      return res.status(500).json({error: "User already exists"})
+      return res.status(500).json({msg: "User already exists"})
     }
 
     bcrypt.hash(password, 8, (err, hash)=>{
