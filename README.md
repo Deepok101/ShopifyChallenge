@@ -14,13 +14,18 @@ Want to try it out?
 ## Dev Setup
 
 1. Create a MongoDB database. This [link](https://www.mongodb.com/basics/create-database) can help you.
-2. Create a Cloudinary account
+2. Create a Cloudinary account.
 3. Create a `.env` file in the root directory of the project.
 4. Add the following environment variables into the `.env` file.
    * API_KEY: \<YOUR CLOUDINARY API KEY\>
    * API_SECRET: \<YOUR CLOUDINARY API SECRET\>
    * CLOUD_NAME: \<YOUR CLOUDINARY CLOUD NAME\>
    * MONGO_URI: \<YOUR MONGODB URI\>
+5. Run the server by executing `node index.js` from the root directory of the project.
+6. Execute `cd frontend` from the root directory of the project and then `npm start` to execute the frontend.
+7. Enjoy your new image repository,
+
+The cloudinary API key, API secret and cloud name are located in your Cloudinary account Dashboard.
 
 ## Tech Stack
 
