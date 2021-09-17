@@ -1,7 +1,7 @@
 # ShopifyChallenge
 
 ## Imageify
-
+ 
 The new revolutionary way to buy images from other users!
 
 This is my submission for the 2021 summer Shopify internship challenge.
@@ -10,6 +10,17 @@ Want to try it out?
 
 1. Go register at https://deepokshopifychallenge.herokuapp.com/register
 2. Login and enjoy! https://deepokshopifychallenge.herokuapp.com/shop
+
+## Dev Setup
+
+1. Create a MongoDB database. This [link](https://www.mongodb.com/basics/create-database) can help you.
+2. Create a Cloudinary account
+3. Set the following environment variables
+   * API_KEY: <YOUR CLOUDINARY API KEY>
+   * API_SECRET: <YOUR CLOUDINARY API SECRET>
+   * CLOUD_NAME: <YOUR CLOUDINARY CLOUD NAME>
+   * MONGO_URI: <YOUR MONGODB URI>
+
 ## Tech Stack
 
 These are the technologies I used for this project.
