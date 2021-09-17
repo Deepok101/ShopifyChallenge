@@ -15,7 +15,8 @@ Want to try it out?
 
 1. Create a MongoDB database. This [link](https://www.mongodb.com/basics/create-database) can help you.
 2. Create a Cloudinary account
-3. Set the following environment variables
+3. Create a `.env` file in the root directory of the project.
+4. Add the following environment variables into the `.env` file.
    * API_KEY: \<YOUR CLOUDINARY API KEY\>
    * API_SECRET: \<YOUR CLOUDINARY API SECRET\>
    * CLOUD_NAME: \<YOUR CLOUDINARY CLOUD NAME\>
